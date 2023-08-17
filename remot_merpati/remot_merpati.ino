@@ -20,8 +20,8 @@
 #include <TinyGPS++.h>
 
 // Setup SSID (Manual) dan Broker MQTT
-const char* ssid = "DINI";
-const char* password = "asdfghjkl";
+const char* ssid = "Merpati";
+const char* password = "123456789";
 const char* mqtt_server = "broker.mqtt-dashboard.com";
 
 // Setup GPS
@@ -79,7 +79,7 @@ void setup_wifimanager(){
   bool res;
   // res = wifiManager.autoConnect(); // Auto generated AP name from chipid, anonymous
   // res = wifiManager.autoConnect("AutoConnectAP"); // Anonymous AP
-  res = wifiManager.autoConnect("RemoteMerpatiAP","12345678");
+  res = wifiManager.autoConnect("RemoteMerpati","123456789");
 
   if(!res) {
         Serial.println("Failed to connect");

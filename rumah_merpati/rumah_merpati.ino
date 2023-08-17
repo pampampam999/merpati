@@ -22,8 +22,8 @@ SoftwareSerial arduino(D7,D8); //RX TX untuk komunikasi dari arduino
 
 // Setup SSID dan Broker MQTT
 
-const char* ssid = "DINI";
-const char* password = "asdfghjkl";
+const char* ssid = "Merpati";
+const char* password = "123456789";
 const char* mqtt_server = "broker.mqtt-dashboard.com";
 
 // Inisialisasi Variable Pendukung
@@ -240,7 +240,7 @@ void loop() {
       
       Serial.print("Publish message: ");
       Serial.println(msg);
-      client.publish("/pam/123/lokasi1", msg);
+      client.publish("/pam/123/lokasi", msg);
       kirim=0;
     }
   }
@@ -259,10 +259,10 @@ void loop() {
 
 
   // Coba button , aktifkan jika ingin mengecek function getGPS() dengan triger D7 as button
-  if(buttonPressed == LOW){
-    getGPS();
-    delay(500);
-  }
+  // if(buttonPressed == LOW){
+  //   getGPS();
+  //   delay(500);
+  // }
 
 
    // Jika ada data dari GPS
