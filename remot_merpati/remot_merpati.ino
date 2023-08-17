@@ -41,6 +41,7 @@ unsigned long lastMsg1 = 0;
 unsigned long lastMsgLokasi = 0;
 unsigned long lastMsgTerbang = 0;
 unsigned long lastMsgGPS = 0;
+unsigned long lastMsgWaktuTerbang = 0;
 
 #define MSG_BUFFER_SIZE	(50)
 char msg[MSG_BUFFER_SIZE];
@@ -327,6 +328,19 @@ void loop() {
     Serial.println(msg);
     client.publish("/pam/123/lokasi_awal", msg);
     lokasiPressed = false;
+  }
+
+  //ketika terbang di tekan 3
+  unsigned long nowWaktuTerbang = millis();
+  if (nowWaktuTerbang - lastMsgWaktuTerbang > 1000 && terbangPressed==true) {
+    lastMsgWaktuTerbang = nowWaktuTerbang;
+    ++value;
+    //snprintf (msg, MSG_BUFFER_SIZE, "%s",lokasi_awal);
+    snprintf (msg, MSG_BUFFER_SIZE, "1");
+    Serial.print("Publish message1: ");
+    Serial.println(msg);
+    client.publish("/pam/123/waktu_matchup", msg);
+    terbangPressed = false;
   }
 
 
