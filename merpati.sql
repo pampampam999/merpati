@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 09, 2023 at 02:24 PM
+-- Generation Time: Aug 17, 2023 at 04:36 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -100,7 +100,10 @@ INSERT INTO `matchup` (`id_matchup`, `id_pertandingan`, `id_track`, `waktu_match
 (8, 11, 2, '2023-07-03 11:26:30', 1),
 (15, 2, 19, '2023-07-04 21:36:52', 1),
 (16, 1, 19, '2023-07-05 13:47:00', 1),
-(17, 14, 20, '2023-07-05 13:53:34', 1);
+(17, 14, 20, '2023-07-05 13:53:34', 1),
+(18, 0, 21, '0000-00-00 00:00:00', 1),
+(19, 0, 22, '0000-00-00 00:00:00', 1),
+(20, 0, 23, '0000-00-00 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -121,7 +124,8 @@ INSERT INTO `pertandingan` (`id_pertandingan`, `nama_pertandingan`) VALUES
 (1, 'Piala Walikota 1'),
 (2, 'Magetan Cup'),
 (11, 'Ponorogo Cup 2'),
-(14, 'Surabaya Open 1');
+(14, 'Surabaya Open 1'),
+(15, 'asd');
 
 -- --------------------------------------------------------
 
@@ -147,7 +151,10 @@ INSERT INTO `track` (`id_track`, `nama_track`, `start_track`, `finish_track`, `p
 (3, 'Dummy', '-7.280549, 112.780775', '-7.279208, 112.790823', 6000),
 (18, 'Random Sukolilo 2', '-7.27717,112.750045', '-7.279208,112.790823', 0),
 (19, 'Random Surabaya A', '-7.27717,112.750045', '-7.279208,112.790823', 4500),
-(20, 'alun alun ponorogo', '-7.27717,112.750045', '-7.279208,112.790823', 1000);
+(20, 'alun alun ponorogo', '-7.27717,112.750045', '-7.279208,112.790823', 1000),
+(21, '', '-7.27717,112.750045', '-7.27717,112.750045', 0),
+(22, '', '-7.27717,112.750045', '-7.27717,112.750045', 0),
+(23, 'sentono', '-7.27717,112.750045', '-7.27717,112.750045', 0);
 
 --
 -- Indexes for dumped tables
@@ -191,7 +198,7 @@ ALTER TABLE `track`
 -- AUTO_INCREMENT for table `burung`
 --
 ALTER TABLE `burung`
-  MODIFY `id_burung` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_burung` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `datang`
@@ -203,19 +210,19 @@ ALTER TABLE `datang`
 -- AUTO_INCREMENT for table `matchup`
 --
 ALTER TABLE `matchup`
-  MODIFY `id_matchup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_matchup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `pertandingan`
 --
 ALTER TABLE `pertandingan`
-  MODIFY `id_pertandingan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_pertandingan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `track`
 --
 ALTER TABLE `track`
-  MODIFY `id_track` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_track` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
