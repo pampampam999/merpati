@@ -9,10 +9,10 @@
 int buttoncoba = D7;
 
 // Setup GPS
-SoftwareSerial gpsSerial(D2, D1);  // RX and TX
+SoftwareSerial gpsSerial(D1, D2);  // RX and TX , kebalikan dari remote
 TinyGPSPlus gps;
 // Global Variable GPS
-float latitude = 0;
+float latitude = 0; 
 float longitude = 0;
 float altitude = 0;
 String resultGPSAkhir = "";
@@ -22,8 +22,8 @@ SoftwareSerial arduino(D7,D8); //RX TX untuk komunikasi dari arduino
 
 // Setup SSID dan Broker MQTT
 
-const char* ssid = "Merpati";
-const char* password = "123456789";
+const char* ssid = "DINI";                              // SSID Merpati
+const char* password = "asdfghjkl";                     // Password 123456789
 const char* mqtt_server = "broker.mqtt-dashboard.com";
 
 // Inisialisasi Variable Pendukung
@@ -259,21 +259,21 @@ void loop() {
 
 
   // Coba button , aktifkan jika ingin mengecek function getGPS() dengan triger D7 as button
-  // if(buttonPressed == LOW){
-  //   getGPS();
-  //   delay(500);
-  // }
+  if(buttonPressed == LOW){
+    getGPS();
+    delay(500);
+  }
 
-
+  
    // Jika ada data dari GPS
   while (gpsSerial.available() > 0 /*&& lokasiPressed == true*/ )    // Jika menerima data dari GPS
   {
-    
+    //Serial.println("ada gps");
     // if(lokasiPressed == true){
     // }
 
     // Jika menerima data dari GPS dan saat butten lokasi di tekan
-    if (gps.encode(gpsSerial.read())){
+    if (gps.encode(gpsSerial.read())){ 
         if (gps.location.isValid()){                  // Jika data GPS Valid
           //int nowGPS = millis();                      // mencatat waktu ketika GPS valid
           //if(nowGPS - lastMsgGPS > 1000){             // menjalankan fungsi jika waktu lebih dari 1 detik dati terakhir kali di jalankan
