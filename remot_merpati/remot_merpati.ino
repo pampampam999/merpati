@@ -69,6 +69,7 @@ bool ledStart = false;
 bool lokasiPressed = false;
 bool terbangPressed = false;
 
+
 // Fungsi koneksi ke WIFI - menggunakan portal
 void setup_wifimanager(){
   AsyncWiFiManager wifiManager(&server,&dns);
@@ -183,13 +184,13 @@ void getGPS(){
   altitude = gps.altitude.meters();   // get data altitude
 
   Serial.print("Latitude: ");
-  Serial.println(latitude, 6);
-  Serial.print("Longitude: ");
-  Serial.println(longitude, 6);
-  Serial.print("Altitude: ");
+  Serial.print(latitude, 6);
+  Serial.print(", Longitude: ");
+  Serial.print(longitude, 6);
+  Serial.print(", Altitude: ");
   Serial.print(altitude);
-  Serial.println(" meters");
-  Serial.print("Location Accuracy: ");
+  Serial.print(" meters");
+  Serial.print(", Location Accuracy: ");
   Serial.print(gps.hdop.hdop());
   Serial.println(" meters");
 }
@@ -258,13 +259,14 @@ void loop() {
   }
 
   // Jika button lokasi di tekan 1
-  if(buttonLokasi == LOW){
+  unsigned long nowLokasi = millis(); // mengambil waktu sekarang (format waktu di mulai dari menyalanya hardware)
+  if(nowLokasi - lastMsgLokasi > 1000 && buttonLokasi == LOW){
       Serial.println("Lokasi Pressed"); 
       lokasiPressed = true;                 // Memberikan flag button telah di tekan yang akan di proses di if berikutnya
   }
 
   // Jika lokasi di tekan 2
-  unsigned long nowLokasi = millis();                               // mengambil waktu sekarang (format waktu di mulai dari menyalanya hardware)
+  nowLokasi = millis();
   if(nowLokasi - lastMsgLokasi > 1000 && lokasiPressed == true){    // Jika lokasi di tekan , dan memberikan debouncing dengan waktu, Jika jarak antara terakhir kali button di tekan dengan sekarang lebih dari 1 detik
     lastMsgLokasi = nowLokasi;                                      // memasukkan waktu sekarang sebagai waktu terakhir di tekan
     Serial.println("Menjalankan isi lokasi");
@@ -324,7 +326,7 @@ void loop() {
     ++value;
     //snprintf (msg, MSG_BUFFER_SIZE, "%s",lokasi_awal);
     snprintf (msg, MSG_BUFFER_SIZE, "%f,%f",latitude,longitude);
-    Serial.print("Publish message1: ");
+    Serial.print("Publish message [lokasi_awal]: ");
     Serial.println(msg);
     client.publish("/pam/123/lokasi_awal", msg);
     lokasiPressed = false;
@@ -332,12 +334,12 @@ void loop() {
 
   //ketika terbang di tekan 3
   unsigned long nowWaktuTerbang = millis();
-  if (nowWaktuTerbang - lastMsgWaktuTerbang > 1000 && terbangPressed==true) {
+  if (nowWaktuTerbang - lastMsgWaktuTerbang > 2000 && terbangPressed==true) {
     lastMsgWaktuTerbang = nowWaktuTerbang;
     ++value;
     //snprintf (msg, MSG_BUFFER_SIZE, "%s",lokasi_awal);
     snprintf (msg, MSG_BUFFER_SIZE, "1");
-    Serial.print("Publish message1: ");
+    Serial.print("Publish message [waktu_matchup]: ");
     Serial.println(msg);
     client.publish("/pam/123/waktu_matchup", msg);
     terbangPressed = false;

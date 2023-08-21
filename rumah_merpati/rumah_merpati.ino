@@ -5,6 +5,13 @@
 #include <TinyGPS++.h>
 #include <string.h>
 
+
+// Untuk SplitString 
+#define MAX_TOKENS 10  // Jumlah maksimum token yang diharapkan
+
+// Untuk doubletochar
+char charValue[20]; // Adjust the array size according to your needs
+
 //TMP button
 int buttoncoba = D7;
 
@@ -22,8 +29,8 @@ SoftwareSerial arduino(D7,D8); //RX TX untuk komunikasi dari arduino
 
 // Setup SSID dan Broker MQTT
 
-const char* ssid = "DINI";                              // SSID Merpati
-const char* password = "asdfghjkl";                     // Password 123456789
+const char* ssid = "Merpati";                              // SSID Merpati
+const char* password = "123456789";                     // Password 123456789
 const char* mqtt_server = "broker.mqtt-dashboard.com";
 
 // Inisialisasi Variable Pendukung
@@ -44,9 +51,34 @@ String data;
 char c;
 
 
+// Fungsi splitstring berdasarkan sparator
+int splitString(const char *input, const char *delimiter, char **tokens) {
+    char str[strlen(input) + 1];
+    strcpy(str, input);
+
+    int tokenCount = 0;
+    char *token = strtok(str, delimiter);
+    
+    while (token != NULL && tokenCount < MAX_TOKENS) {
+        tokens[tokenCount] = new char[strlen(token) + 1];
+        strcpy(tokens[tokenCount], token);
+        tokenCount++;
+        token = strtok(NULL, delimiter);
+    }
+
+    return tokenCount;
+}
+
+void printTokens(char **tokens, int count) {
+    for (int i = 0; i < count; i++) {
+        Serial.println(tokens[i]);
+        delete[] tokens[i]; // Clean up memory
+    }
+}
+
 double haversine_distance(double lat1, double lon1, double lat2, double lon2) {
     // Radius bumi dalam kilometer
-    double R = 6371.0;
+    double R = 6371000.0;
 
     // Ubah derajat menjadi radian
     double lat1_rad = lat1 * PI / 180.0;
@@ -179,16 +211,22 @@ void getGPS(){
 
 
   Serial.print("Latitude: ");
-  Serial.println(latitude, 6);
-  Serial.print("Longitude: ");
-  Serial.println(longitude, 6);
-  Serial.print("Altitude: ");
+  Serial.print(latitude, 6);
+  Serial.print(", Longitude: ");
+  Serial.print(longitude, 6);
+  Serial.print(", Altitude: ");
   Serial.print(altitude);
-  Serial.println(" meters");
-  Serial.print("Location Accuracy: ");
+  Serial.print(" meters");
+  Serial.print(", Location Accuracy: ");
   Serial.print(gps.hdop.hdop());
   Serial.println(" meters");
 }
+
+char* doubleToChar(double value, int precision) {
+  dtostrf(value, 0, precision, charValue);
+  return charValue;
+}
+
 void setup() {
   pinMode(BUILTIN_LED, OUTPUT);         // Initialize the BUILTIN_LED pin as an output
   
@@ -213,7 +251,7 @@ void loop() {
   }
   client.loop();
 
-  // Mengirimkan 
+  // Mengirimkan data lokasi awal remote dan lokasi akhir rumah merpati
   unsigned long now = millis();
   if (now - lastMsg > 2000) {
     if(kirim==1){
@@ -238,11 +276,38 @@ void loop() {
 
       snprintf (msg, MSG_BUFFER_SIZE, "%s",gabungan);
       
-      Serial.print("Publish message: ");
+      Serial.print("Publish message [lokasi]: ");
       Serial.println(msg);
       client.publish("/pam/123/lokasi", msg);
-      kirim=0;
     }
+  }
+
+  // Mengirimkan Perhitungan Jarak lokasi_awal dan lokasi_akhir dalam meter
+  if(kirim==1){
+    // Memisahkan variable gabungan di split dengan koma ke dalam variable token
+    char delimiter[] = ",";     // Sparator
+    char *tokens[MAX_TOKENS];   // Max berapa space yang di perlukan , sudah di set 10
+    int tokenCount = splitString(gabungan, delimiter, tokens); 
+    //printTokens(tokens, tokenCount); // untuk print hasil dari token
+
+    // Merubah tokens menjadi double
+    double lat1 = atof(tokens[0]);
+    double lon1 = atof(tokens[1]);
+    double lat2 = atof(tokens[2]);
+    double lon2 = atof(tokens[3]);
+
+    // Mencari dengan haverin distance
+    double panjangTrack = haversine_distance(lat1,lon1,lat2,lon2); // Jarak dalam bentuk KM
+    //Serial.print(panjangTrack); Serial.println(" Meter");
+    Serial.print("Publish message [jarak Meter]: ");
+    Serial.println(panjangTrack);
+    char *charPanjangJarak = doubleToChar(panjangTrack, 5);
+
+
+    // Publish ke dalam MQTT /pam/123/jarak
+    client.publish("/pam/123/jarak",charPanjangJarak);
+
+    kirim=0;  // merubah flag karena pengiriman data untuk di publis ke MQTT selesai
   }
 
   // Jika ada data dari arduino
@@ -252,9 +317,37 @@ void loop() {
   }
 
   // jika data dari arduino sudah selesai 1 baris
+  
   if(data.length()>0){
     Serial.print(data);
+
+    // Publish RFID ke Web
+    Serial.print("Publish [RFID]: ");
+    Serial.print(data);
+
+
+    //Convert string to char
+    const char* rfid = data.c_str();
+
+    char modifiedArray[data.length() + 1];  // +1 for null-terminator
+    char* modifiedPtr = modifiedArray;
+
+    for (size_t i = 0; i < data.length(); ++i) {
+        if (rfid[i] != '\n' && !isspace(static_cast<unsigned char>(rfid[i]))) {
+            *modifiedPtr++ = rfid[i];
+        }
+    }
+    *modifiedPtr = '\0';  // Null-terminate the modified string
+
+
+
+    client.publish("/pam/123/datang", modifiedArray);
     data="";
+    
+
+    //publish ke MQTT datang
+
+    
   }
 
 
