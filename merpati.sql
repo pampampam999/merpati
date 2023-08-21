@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2023 at 04:36 PM
+-- Generation Time: Aug 22, 2023 at 01:13 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -38,10 +38,10 @@ CREATE TABLE `burung` (
 --
 
 INSERT INTO `burung` (`id_burung`, `nama_burung`, `rfid`) VALUES
-(1, 'Ardian', '111'),
-(2, 'Yoga', '222'),
-(3, 'Guetta', '124'),
-(5, 'Miki', '8989');
+(1, 'Ardian', '3067700'),
+(2, 'Yoga', '3102713'),
+(3, 'Jono', '3085881'),
+(4, 'Upin', '3090706');
 
 -- --------------------------------------------------------
 
@@ -61,19 +61,10 @@ CREATE TABLE `datang` (
 --
 
 INSERT INTO `datang` (`id_datang`, `id_matchup`, `id_burung`, `waktu_datang`) VALUES
-(1, 1, 1, '2023-06-22 19:00:00'),
-(2, 1, 2, '2023-06-22 19:05:00'),
-(3, 2, 1, '2023-06-23 09:05:00'),
-(4, 2, 2, '2023-06-21 06:50:26'),
-(5, 1, 3, '2023-06-22 21:00:00'),
-(20, 15, 1, '2023-07-04 21:20:57'),
-(21, 15, 2, '2023-07-05 16:01:27'),
-(22, 15, 3, '2023-07-05 16:01:36'),
-(23, 15, 5, '2023-07-05 16:01:42'),
-(24, 17, 1, '2023-07-05 16:01:13'),
-(25, 17, 2, '2023-07-05 16:01:27'),
-(26, 17, 3, '2023-07-05 16:01:36'),
-(27, 17, 5, '2023-07-05 16:01:42');
+(1, 1, 1, '2023-08-22 06:10:49'),
+(2, 1, 2, '2023-08-22 06:11:16'),
+(3, 1, 3, '0000-00-00 00:00:00'),
+(4, 1, 4, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -94,16 +85,7 @@ CREATE TABLE `matchup` (
 --
 
 INSERT INTO `matchup` (`id_matchup`, `id_pertandingan`, `id_track`, `waktu_matchup`, `status`) VALUES
-(1, 1, 1, '2023-06-22 13:00:00', 1),
-(4, 1, 2, '2023-06-30 17:00:00', 1),
-(6, 11, 1, '2023-06-27 16:50:00', 1),
-(8, 11, 2, '2023-07-03 11:26:30', 1),
-(15, 2, 19, '2023-07-04 21:36:52', 1),
-(16, 1, 19, '2023-07-05 13:47:00', 1),
-(17, 14, 20, '2023-07-05 13:53:34', 1),
-(18, 0, 21, '0000-00-00 00:00:00', 1),
-(19, 0, 22, '0000-00-00 00:00:00', 1),
-(20, 0, 23, '0000-00-00 00:00:00', 1);
+(1, 1, 1, '2023-08-22 06:09:14', 1);
 
 -- --------------------------------------------------------
 
@@ -121,11 +103,7 @@ CREATE TABLE `pertandingan` (
 --
 
 INSERT INTO `pertandingan` (`id_pertandingan`, `nama_pertandingan`) VALUES
-(1, 'Piala Walikota 1'),
-(2, 'Magetan Cup'),
-(11, 'Ponorogo Cup 2'),
-(14, 'Surabaya Open 1'),
-(15, 'asd');
+(1, 'Magetan Cup');
 
 -- --------------------------------------------------------
 
@@ -146,15 +124,7 @@ CREATE TABLE `track` (
 --
 
 INSERT INTO `track` (`id_track`, `nama_track`, `start_track`, `finish_track`, `panjang_track`) VALUES
-(1, 'Genengan', '-7.277170, 112.750045', '-7.279208, 112.790823', 36001),
-(2, 'Ponorogo', '-7.278902, 112.790592', '-7.274635, 112.797853', 500),
-(3, 'Dummy', '-7.280549, 112.780775', '-7.279208, 112.790823', 6000),
-(18, 'Random Sukolilo 2', '-7.27717,112.750045', '-7.279208,112.790823', 0),
-(19, 'Random Surabaya A', '-7.27717,112.750045', '-7.279208,112.790823', 4500),
-(20, 'alun alun ponorogo', '-7.27717,112.750045', '-7.279208,112.790823', 1000),
-(21, '', '-7.27717,112.750045', '-7.27717,112.750045', 0),
-(22, '', '-7.27717,112.750045', '-7.27717,112.750045', 0),
-(23, 'sentono', '-7.27717,112.750045', '-7.27717,112.750045', 0);
+(1, 'GorgaMagetan', '-7.6820976,111.4170272', '-7.6556506,111.3264188', 12000);
 
 --
 -- Indexes for dumped tables
@@ -198,31 +168,31 @@ ALTER TABLE `track`
 -- AUTO_INCREMENT for table `burung`
 --
 ALTER TABLE `burung`
-  MODIFY `id_burung` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_burung` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `datang`
 --
 ALTER TABLE `datang`
-  MODIFY `id_datang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_datang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `matchup`
 --
 ALTER TABLE `matchup`
-  MODIFY `id_matchup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_matchup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `pertandingan`
 --
 ALTER TABLE `pertandingan`
-  MODIFY `id_pertandingan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_pertandingan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `track`
 --
 ALTER TABLE `track`
-  MODIFY `id_track` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_track` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
